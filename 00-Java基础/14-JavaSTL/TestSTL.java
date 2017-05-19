@@ -1,4 +1,7 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -7,6 +10,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class TestSTL {
 
@@ -17,7 +21,10 @@ public class TestSTL {
 		testListIterator();
 		testForEach();
 		testSet();
+		testSet2();
 		testMap();
+		testCollections();
+		testArrays();
 	}
 
 	public static void testArrayList() {
@@ -25,8 +32,8 @@ public class TestSTL {
 		alist.add("stu1");
 		alist.add("stu2");
 		alist.add("stu3");
-		System.out.println("alist¼¯ºÏ³¤¶È="+alist.size());
-		System.out.println("alistµÚ¶ş¸öÔªËØÊÇ"+alist.get(2));
+		System.out.println("alisté›†åˆé•¿åº¦="+alist.size());
+		System.out.println("alistç¬¬äºŒä¸ªå…ƒç´ æ˜¯"+alist.get(2));
 		System.out.println("");
 	}
 	
@@ -35,9 +42,9 @@ public class TestSTL {
 		llist.addFirst("linkstu1");
 		llist.addFirst("linkstu2");		
 		llist.addLast("linkstu3");
-		System.out.println("llist¼¯ºÏ³¤¶È="+llist.size());
-		System.out.println("llistµÚ1¸öÔªËØÊÇ"+llist.getFirst());
-		System.out.println("llist×îºó1¸öÔªËØÊÇ"+llist.getLast());
+		System.out.println("llisté›†åˆé•¿åº¦="+llist.size());
+		System.out.println("llistç¬¬1ä¸ªå…ƒç´ æ˜¯"+llist.getFirst());
+		System.out.println("llistæœ€å1ä¸ªå…ƒç´ æ˜¯"+llist.getLast());
 		System.out.println("");
 	}
 	
@@ -48,9 +55,9 @@ public class TestSTL {
 		alist.add("data3");
 		Iterator<String> it = alist.iterator();
 		int count = 1;
-		while (it.hasNext()) {	//µü´úÆ÷
+		while (it.hasNext()) {	//è¿­ä»£å™¨
 			Object object = it.next();
-			System.out.println("allistµÄµÚ"+count+++"¸öÔªËØÊÇ"+object);
+			System.out.println("allistçš„ç¬¬"+count+++"ä¸ªå…ƒç´ æ˜¯"+object);
 		}
 		System.out.println("");
 	}
@@ -62,11 +69,11 @@ public class TestSTL {
 		alist.add("lidata2");
 		alist.add("lidata3");
 		System.out.println("alist="+alist);
-		ListIterator<String> it = alist.listIterator(alist.size());	//·´Ïò±éÀú
+		ListIterator<String> it = alist.listIterator(alist.size());	//åå‘éå†
 		int count = 0;
-		while (it.hasPrevious()) {	//µü´úÆ÷
+		while (it.hasPrevious()) {	//è¿­ä»£å™¨
 			Object object = it.previous();
-			System.out.println("allistµÄµÚ"+(alist.size()-(count++))+"¸öÔªËØÊÇ"+object);
+			System.out.println("allistçš„ç¬¬"+(alist.size()-(count++))+"ä¸ªå…ƒç´ æ˜¯"+object);
 		}
 		System.out.println("");
 	}
@@ -77,14 +84,14 @@ public class TestSTL {
 		alist.add("each2");
 		alist.add("each3");
 		int count = 1;
-		for (Object object :alist) {	//foreachÖ»ÄÜ·ÃÎÊ²»ÄÜĞŞ¸Ä
-			System.out.println("allistµÄµÚ"+count+++"¸öÔªËØÊÇ"+object);
+		for (Object object :alist) {	//foreachåªèƒ½è®¿é—®ä¸èƒ½ä¿®æ”¹
+			System.out.println("allistçš„ç¬¬"+count+++"ä¸ªå…ƒç´ æ˜¯"+object);
 		}
 		System.out.println("");
 	}
 	
-	public static void testSet() {
-		HashSet hs = new HashSet();	//×¢ÒâÈç¹û±È½Ï¶ÔÏóÒªÖØĞ´equals·½·¨
+	public static void testSet() {	//hashset=ä¸é‡å¤+æ— åº
+		HashSet hs = new HashSet();	//æ³¨æ„å¦‚æœæ¯”è¾ƒå¯¹è±¡è¦é‡å†™toString,hashcode,equalsæ–¹æ³•
 		hs.add("abc");
 		hs.add("cde");
 		hs.add("fff");
@@ -95,7 +102,29 @@ public class TestSTL {
 		int count = 1;
 		while (iterator.hasNext()) {
 			Object obj = iterator.next();
-			System.out.println("allistµÄµÚ"+count+++"¸öÔªËØÊÇ"+obj);
+			System.out.println("hsçš„ç¬¬"+count+++"ä¸ªå…ƒç´ æ˜¯"+obj);
+		}
+		System.out.println("");
+	}
+	
+
+	
+	public static void testSet2() {	//treesetä¸é‡å¤+æœ‰åº
+		TreeSet ts = new TreeSet();	//æ³¨æ„å¦‚æœæ¯”è¾ƒå¯¹è±¡è¦å®ç°comparableæ¥å£
+		ts.add(new Student("abc", 30));
+		ts.add(new Student("bbc", 40));
+		ts.add(new Student("mfc", 50));
+		ts.add(new Student("bbc", 40));
+		ts.add(new Student("mfc", 50));
+		ts.add(new Student("kfc", 20));
+		ts.add(new Student("mcc", 25));
+		ts.add(new Student("ffc", 35));
+		System.out.println("ts="+ts);
+		Iterator iterator = ts.iterator();
+		int count = 1;
+		while (iterator.hasNext()) {
+			Object obj = iterator.next();
+			System.out.println("tsçš„ç¬¬"+count+++"ä¸ªå…ƒç´ æ˜¯"+obj);
 		}
 		System.out.println("");
 	}
@@ -111,9 +140,38 @@ public class TestSTL {
 		while (it.hasNext()) {
 			Object key = it.next();
 			Object value = map.get(key);
-			System.out.println("¼ü="+key+"---->"+"Öµ="+value);
+			System.out.println("é”®="+key+"---->"+"å€¼="+value);
 		}
 		System.out.println("");
 	}
+	
+	public static void testCollections() {
+		ArrayList aList = new ArrayList();
+		Collections.addAll(aList, "c", "h", "i", "n", "a", "man");
+		System.out.println("aList="+aList);
+		Collections.reverse(aList);
+		System.out.println("reverse->"+aList);
+		Collections.shuffle(aList);
+		System.out.println("shuffle->"+aList);
+		Collections.sort(aList);
+		System.out.println("sort->"+aList);
+		System.out.println("");
+	}
+	
+	public static void testArrays() {
+		int[] arr={9,7,5,7,6,5,3};
+		System.out.print("arr=");
+		for (int i : arr)
+			System.out.print(i+" ");
+		System.out.println("");
+		
+		Arrays.sort(arr);
+		System.out.print("sort->");
+		for (int i : arr)
+			System.out.print(i+" ");
+		System.out.println("");
+		
+		System.out.println("binarySearch(6)="+Arrays.binarySearch(arr, 6));
+		System.out.println("binarySearch(99)="+Arrays.binarySearch(arr, 99));
+	}
 }
-
