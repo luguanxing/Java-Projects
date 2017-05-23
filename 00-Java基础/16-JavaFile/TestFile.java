@@ -1,99 +1,51 @@
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class TestIO {
+public class TestFile {
 	
 	public static void main(String[] args) throws Exception {
-		testFileInputStream();	//¶ÁÈë¶ş½øÖÆÁ÷
-		testFileOutputStream();	//Ğ´Èë¶ş½øÖÆÁ÷
-		testCopy1();			//Öğ×Ö½Ú¶ÁĞ´¶ş½øÖÆÁ÷½øĞĞ¸´ÖÆ
-		testCopy2();			//ÀûÓÃ×°ºáÄ£Ê½»º³åÇø(8192×Ö½Ú)¶ÁĞ´¶ş½øÖÆÁ÷½øĞĞ¸´ÖÆ	
-		testFileReader(); 		//¶ÁÈë×Ö·ûÁ÷
-		testFileWriter(); 		//Ğ´Èë×Ö·ûÁ÷
-		testReadline();			//²âÊÔ¶ÁÕûĞĞ
+		testFile();
+		SearchDir();
 	}
 	
-	public static void testFileInputStream() throws Exception {
-		FileInputStream fis = new FileInputStream("read.txt");
-		int b = 0;
-		while (true) {
-			b = fis.read();
-			if (b == -1)
-				break;
-			System.out.print(b+" ");
+	public static void testFile() {
+        File file=new File("åä¸å‡†.txt");  
+        System.out.println("åˆ¤æ–­æ–‡ä»¶æ˜¯å¦å­˜åœ¨"+file.exists());  
+        System.out.println("è¯»å–æ–‡ä»¶åç§°"+file.getName()); 
+        System.out.println("è¯»å–æ–‡ä»¶ä¿®æ”¹æ—¥æœŸ"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(file.lastModified()))); 
+        System.out.println("è¯»å–æ–‡ä»¶ç›¸å¯¹è·¯å¾„"+file.getPath());  
+        System.out.println("è¯»å–æ–‡ä»¶ç»å¯¹è·¯å¾„"+file.getAbsolutePath());  
+        System.out.println("è¯»å–æ–‡ä»¶çš„çˆ¶çº§è·¯å¾„"+new File(file.getAbsolutePath()).getParent());  
+        System.out.println("è¯»å–æ–‡ä»¶çš„å¤§å°"+file.length()+"byte");
+        System.out.println("åˆ¤æ–­æ–‡ä»¶æ˜¯å¦è¢«éšè—"+file.isHidden());  
+        System.out.println("åˆ¤æ–­æ–‡ä»¶æ˜¯å¦å¯è¯»"+file.canRead());  
+        System.out.println("åˆ¤æ–­æ–‡ä»¶æ˜¯å¦å¯å†™"+file.canWrite());  
+        System.out.println("åˆ¤æ–­æ–‡ä»¶æ˜¯å¦ä¸ºæ–‡ä»¶å¤¹"+file.isDirectory());
+        System.out.println("");
+	}
+	
+	public static void SearchDir() {
+		String dirpath = System.getProperty("user.dir");
+		System.out.println("å½“å‰ç›®å½•ä¸º"+dirpath);
+		System.out.println("dir");
+		File dir = new File(dirpath);
+		BFS(dir, 0);
+	}
+	
+	public static void BFS(File dir, int blank) {
+		String dirpath = dir.getAbsolutePath();
+		String[] files = dir.list();
+		for (String file : files) {
+			for (int i = 0; i < blank/4; i++)
+				System.out.print("â•‘  ");		//å…ˆæ‰“å°éª¨æ¶
+			System.out.print("â•šâ• ");			//å†æ‰“å°åˆ†æ”¯
+			System.out.print(file);
+			System.out.println("");
+			File checkisdir = new File(dirpath+"\\"+file);
+			if (checkisdir.isDirectory()) {		//è‹¥ä¸ºç›®å½•ç»§ç»­é€’å½’
+				BFS(checkisdir, blank+4);
+			}
 		}
-		fis.close();
-		System.out.println("");
-	}
-	
-	public static void testFileOutputStream() throws Exception {
-		FileOutputStream fos = new FileOutputStream("write.txt", true);
-		String str = "hahaha!ÄãºÃ!\n";
-		byte[] b = str.getBytes();
-		for (byte c : b) {
-			fos.write(c);
-		}
-		fos.close();
-		System.out.println("");
-	}
-	
-	public static void testCopy1() throws Exception  {
-		FileInputStream fis = new FileInputStream("tiananmen.jpg");
-		FileOutputStream fos = new FileOutputStream("tiananmenCopy1.jpg");
-		long begintime = System.currentTimeMillis();
-		int len;
-		while ((len = fis.read()) != -1)
-			fos.write(len);
-		long endtime = System.currentTimeMillis();
-		System.out.println("Öğ¸ö×Ö½Ú¿½±´ÎÄ¼ş³¤¶È"+(fis.toString().length())+"¹²»¨·Ñ"+(endtime-begintime)+"msÊ±¼ä");
-		fis.close();
-		fos.close();
-		System.out.println("");
-	}
-	
-	public static void testCopy2() throws Exception  {
-		BufferedInputStream bis = new BufferedInputStream(new FileInputStream("tiananmen.jpg"));
-		BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("tiananmenCopy2.jpg"));
-		long begintime = System.currentTimeMillis();
-		int len;
-		while ((len = bis.read()) != -1)
-			bos.write(len);
-		long endtime = System.currentTimeMillis();
-		System.out.println("»º³åÇø¿½±´ÎÄ¼ş³¤¶È"+(bis.toString().length())+"¹²»¨·Ñ"+(endtime-begintime)+"msÊ±¼ä");
-		bis.close();
-		bos.close();
-		System.out.println("");
-	}
-	
-	public static void testFileReader() throws Exception {
-		FileReader reader = new FileReader("Ê®²»×¼.txt");
-		int ch;
-		while ((ch = reader.read()) != -1)
-			System.out.print((char)ch);
-		reader.close();
-		System.out.println("");
-	}
-	
-	public static void testFileWriter() throws Exception {
-		FileWriter writer = new FileWriter("write2.txt", true);
-		String str = "ÄãºÃ£¡ÊÀ½ç£¡";
-		writer.write(str+"\n");
-		writer.close();
-		System.out.println("");
-	}
-	
-	public static void testReadline() throws Exception {
-		BufferedReader bf = new BufferedReader(new FileReader("Ê®²»×¼.txt"));
-		String str;
-		int count = 1;
-		while ((str = bf.readLine()) != null)
-			System.out.print("["+count+++"]"+str+"\n");
-		System.out.println("");
 	}
 }
