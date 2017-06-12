@@ -8,23 +8,26 @@ import com.mysql.jdbc.Statement;
 
 public class Test {
 
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException, ClassNotFoundException {
 		// TODO 自动生成的方法存根
 		test();
 	}
 
-	public static void test() throws SQLException {
+	public static void test() throws SQLException, ClassNotFoundException {
 		//1.注册驱动
-		DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+		Class.forName("com.mysql.jdbc.Driver");
 		
 		//2.建立连接
-		Connection conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/db_student", "root", "root");
+		String url = "jdbc:mysql://localhost:3306/db_jdbc";
+		String username = "root";
+		String password = "root";
+		Connection conn = (Connection) DriverManager.getConnection(url, username, password);
 		
 		//3.创建语句
 		Statement st = (Statement) conn.createStatement();
 		
 		//4.执行查询语句
-		ResultSet rs = st.executeQuery("select * from t_student");
+		ResultSet rs = st.executeQuery("select * from t_user");
 		
 		//5.处理结果
 		while (rs.next()) {
