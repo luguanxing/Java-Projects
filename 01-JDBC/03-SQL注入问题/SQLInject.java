@@ -9,10 +9,30 @@ import com.mysql.jdbc.Statement;
 public class SQLInject {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		read("张三");				//正常使用
+		test_Statement();
+		test_PreparedStatement();
+	}
+	
+	public static void test_Statement() throws ClassNotFoundException, SQLException {
+		System.out.println("=============使用Statement==============");
+		long start = System.currentTimeMillis();
+		read("张三");
 		read("' or 1 or '");		//SQL注入攻击，name = ''被注入后变成name = '' or 1 or ''结果是所有数据泄漏
-		read_sql("张三");			//正常使用
+		long end = System.currentTimeMillis();		
+		System.out.println("============================================");
+		System.out.println("耗时:" + (end-start));
+		System.out.println("\n");
+	}
+	
+	public static void test_PreparedStatement() throws ClassNotFoundException, SQLException {
+		System.out.println("=============使用PreparedStatement==============");
+		long start = System.currentTimeMillis();
+		read_sql("张三");
 		read_sql("' or 1 or '");	//防止SQL注入攻击
+		long end = System.currentTimeMillis();		
+		System.out.println("============================================");
+		System.out.println("耗时:" + (end-start));
+		System.out.println("\n");
 	}
 	
 	public static void read(String name) throws ClassNotFoundException, SQLException {
