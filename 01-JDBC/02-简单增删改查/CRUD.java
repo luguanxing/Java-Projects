@@ -8,6 +8,7 @@ import com.mysql.jdbc.Statement;
 public class CRUD {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.jdbc.Driver");
 		create();	//增删改稍简单
 		update();
 		delete();
@@ -15,7 +16,6 @@ public class CRUD {
 	}
 
 	public static void create() throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.jdbc.Driver");
 		String url = "jdbc:mysql://localhost:3306/db_jdbc";
 		String username = "root";
 		String password = "root";
@@ -36,7 +36,6 @@ public class CRUD {
 	}
 	
 	public static void read() throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.jdbc.Driver");
 		String url = "jdbc:mysql://localhost:3306/db_jdbc";
 		String username = "root";
 		String password = "root";
@@ -63,7 +62,6 @@ public class CRUD {
 	}
 	
 	public static void update() throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.jdbc.Driver");
 		String url = "jdbc:mysql://localhost:3306/db_jdbc";
 		String username = "root";
 		String password = "root";
@@ -84,7 +82,6 @@ public class CRUD {
 	}
 	
 	public static void delete() throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.jdbc.Driver");
 		String url = "jdbc:mysql://localhost:3306/db_jdbc";
 		String username = "root";
 		String password = "root";
