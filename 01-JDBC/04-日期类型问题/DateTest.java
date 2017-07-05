@@ -10,13 +10,13 @@ import com.mysql.jdbc.Statement;
 public class DateTest {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		// TODO ×Ô¶¯Éú³ÉµÄ·½·¨´æ¸ù
+		// TODO è‡ªåŠ¨ç”Ÿæˆçš„æ–¹æ³•å­˜æ ¹
 		Class.forName("com.mysql.jdbc.Driver");
-		create("haha", new Date(), 123.567f);	//µ±Ç°Ê±¼ä
+		create("haha", new Date(), 123.567f);	//å½“å‰æ—¶é—´
 		read("haha");
 	}
 
-	//²ÎÊı´«ÈëÊ¹ÓÃjava.util.Date(Çø±ğjava.sql.Date)
+	//å‚æ•°ä¼ å…¥ä½¿ç”¨java.util.Date(åŒºåˆ«java.sql.Date)
 	public static void create(String name, Date birthday, float money) throws ClassNotFoundException, SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -26,7 +26,7 @@ public class DateTest {
 			String sql = "INSERT INTO db_jdbc.t_user (NAME, birthday, money) VALUES( ?, ?, ?);";
 			ps = (PreparedStatement) conn.prepareStatement(sql);
 			ps.setString(1, name);
-			ps.setDate(2, new java.sql.Date(birthday.getTime()));	//java.util.Date×ªÎªjava.sql.Date£¨¸¸Àà×ª×ÓÀà£©
+			ps.setDate(2, new java.sql.Date(birthday.getTime()));	//java.util.Dateè½¬ä¸ºjava.sql.Dateï¼ˆçˆ¶ç±»è½¬å­ç±»ï¼‰
 			ps.setFloat(3, money);
 			ps.executeUpdate();
 			ps.close();
@@ -43,15 +43,14 @@ public class DateTest {
 		String sql = "select id, name, birthday, money from t_user where name = ?";
 		try {
 			conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/db_jdbc", "root", "root");
-			ps = (PreparedStatement) conn.prepareStatement(sql);	//¹¹ÔìÊ±PreparedStatement×Ô¶¯¹ıÂË
+			ps = (PreparedStatement) conn.prepareStatement(sql);	//æ„é€ æ—¶PreparedStatementè‡ªåŠ¨è¿‡æ»¤
 			ps.setString(1, name);
-			System.out.println("½«ÒªÖ´ĞĞµÄsqlÓï¾äÎª:" + ps.toString());
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				System.out.print(rs.getInt("id")+"  ");
 				System.out.print(rs.getString("name")+"  ");
-				//java.sql.date¼Ì³ĞÁËjava.utilµÄdate,µ«Ö»ÓĞÈÕÆÚÃ»ÓĞÊ±¼ä
-				//Date utildate = rs.getDate("birthday"); //×ÓÀà¿ÉÒÔ¸³¸ø¸¸Àà
+				//java.sql.dateç»§æ‰¿äº†java.utilçš„date,ä½†åªæœ‰æ—¥æœŸæ²¡æœ‰æ—¶é—´
+				//Date utildate = rs.getDate("birthday"); //å­ç±»å¯ä»¥èµ‹ç»™çˆ¶ç±»
 				Date utildate = new Date(rs.getDate("birthday").getTime());
 				System.out.print(utildate+"  ");
 				System.out.print(rs.getFloat("money")+"  ");
