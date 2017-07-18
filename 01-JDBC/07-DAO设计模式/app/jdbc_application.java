@@ -1,12 +1,9 @@
 package app;
 
 import java.util.Date;
-
-import javax.jws.soap.SOAPBinding.Use;
-
 import dao.User;
 import dao.UserDAO;
-import dao.UserDaoJdbcImpl;
+import dao.UserDaoJdbcImpl;	//缺点：依赖具体实现类(应采用工厂模式)
 
 public class jdbc_application {
 
@@ -23,7 +20,9 @@ public class jdbc_application {
 		
 		User check = dao.findUser(user.getName());
 		System.out.println("新用户id为"+check.getId());
-		dao.delete(check);
+		
+		check.setMoney(10000);
+		dao.update(check);
 	}
 
 }
