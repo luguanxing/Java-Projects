@@ -11,20 +11,18 @@ import dao.UserDaoJdbcImpl;
 public class jdbc_application {
 
 	public static void main(String[] args) {
-		//åº”ç”¨ç¨‹åºéƒ¨åˆ†ï¼Œç›´æ¥ä½¿ç”¨æ¥å£æ“ä½œ
-		
+		//Ó¦ÓÃ³ÌĞò²¿·Ö
 		User user = new User();
 		user.setBirthday(new Date());
 		user.setName("dao_test");
 		user.setMoney(5000f);
 		
-		//ä½¿ç”¨æ¥å£ï¼Œå¦‚æœæƒ³ä¸æ”¹é€»è¾‘åº”ç”¨å·¥å‚æ¨¡å¼
+		//Ö±½ÓÊ¹ÓÃ½Ó¿Ú²Ù×÷£¬ÈçÏë²»ĞŞ¸ÄÒµÎñ²ãÓ¦Ê¹ÓÃ¹¤³§Ä£Ê½
 		UserDAO dao = new UserDaoJdbcImpl();
 		dao.addUser(user);
 		
-
-		User check = dao.findUser(user.getName(), null);
-		System.out.println("æ–°ç”¨æˆ·idä¸º"+check.getId());
+		User check = dao.findUser(user.getName());
+		System.out.println("ĞÂÓÃ»§idÎª"+check.getId());
 		dao.delete(check);
 	}
 

@@ -12,10 +12,11 @@ import jdbc.JdbcUtils;
 public class UserDaoJdbcImpl implements UserDAO {
 
 	@Override
-	public void addUser(User user) {
+	public boolean addUser(User user) {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		boolean result = false;	//ÏÈ¼ÙÉè²Ù×÷Ê§°Ü
 		try {
 			conn = (Connection) JdbcUtils.getConnection();
 			String sql = "insert into t_user(name,birthday, money) values (?,?,?) ";
@@ -24,11 +25,13 @@ public class UserDaoJdbcImpl implements UserDAO {
 			ps.setDate(2, new java.sql.Date(user.getBirthday().getTime()));
 			ps.setFloat(3, user.getMoney());
 			ps.executeUpdate();
+			result = true;
 		} catch (SQLException e) {
-			throw new DaoException(e.getMessage(), e);
+			result = false;
 		} finally {
 			JdbcUtils.free(rs, ps, conn);
 		}
+		return result;
 	}
 
 	@Override
@@ -47,7 +50,7 @@ public class UserDaoJdbcImpl implements UserDAO {
 				user = mappingUser(rs);
 			}
 		} catch (SQLException e) {
-			throw new DaoException(e.getMessage(), e);
+			user = null;
 		} finally {
 			JdbcUtils.free(rs, ps, conn);
 		}
@@ -55,7 +58,7 @@ public class UserDaoJdbcImpl implements UserDAO {
 	}
 
 	@Override
-	public User findUser(String loginName, String password) {
+	public User findUser(String loginName) {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -70,7 +73,7 @@ public class UserDaoJdbcImpl implements UserDAO {
 				user = mappingUser(rs);
 			}
 		} catch (SQLException e) {
-			throw new DaoException(e.getMessage(), e);
+			user = null;
 		} finally {
 			JdbcUtils.free(rs, ps, conn);
 		}
@@ -78,10 +81,11 @@ public class UserDaoJdbcImpl implements UserDAO {
 	}
 
 	@Override
-	public void update(User user) {
+	public boolean update(User user) {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
+		boolean result = false;
 		try {
 			conn = (Connection) JdbcUtils.getConnection();
 			String sql = "update t_user set name=?, birthday=?, money=? where id=? ";
@@ -91,28 +95,33 @@ public class UserDaoJdbcImpl implements UserDAO {
 			ps.setFloat(3, user.getMoney());
 			ps.setInt(4, user.getId());
 			ps.executeUpdate();
+			result = true;
 		} catch (SQLException e) {
-			throw new DaoException(e.getMessage(), e);
+			result = false;
 		} finally {
 			JdbcUtils.free(rs, ps, conn);
 		}
+		return result;
 	}
 
 	@Override
-	public void delete(User user) {
+	public boolean delete(User user) {
 		Connection conn = null;
 		Statement st = null;
 		ResultSet rs = null;
+		boolean result = false;
 		try {
 			conn = (Connection) JdbcUtils.getConnection();
 			st = (Statement) conn.createStatement();
 			String sql = "delete from t_user where id=" + user.getId();
 			st.executeUpdate(sql);
+			result = true;
 		} catch (SQLException e) {
-			throw new DaoException(e.getMessage(), e);
+			result = false;
 		} finally {
 			JdbcUtils.free(rs, st, conn);
 		}
+		return result;
 	}
 
 	
