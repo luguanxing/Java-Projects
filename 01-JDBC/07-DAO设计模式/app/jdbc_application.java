@@ -11,19 +11,20 @@ import dao.UserDaoJdbcImpl;
 public class jdbc_application {
 
 	public static void main(String[] args) {
-		//Ӧ�ó��򲿷֣�ֱ��ʹ�ýӿڲ���
+		//应用程序部分，直接使用接口操作
 		
 		User user = new User();
 		user.setBirthday(new Date());
 		user.setName("dao_test");
 		user.setMoney(5000f);
 		
-		UserDaoJdbcImpl dao = new UserDaoJdbcImpl();
+		//使用接口，如果想不改逻辑应用工厂模式
+		UserDAO dao = new UserDaoJdbcImpl();
 		dao.addUser(user);
 		
 
 		User check = dao.findUser(user.getName(), null);
-		System.out.println("���û�idΪ"+check.getId());
+		System.out.println("新用户id为"+check.getId());
 		dao.delete(check);
 	}
 
