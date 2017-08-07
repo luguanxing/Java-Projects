@@ -1,9 +1,11 @@
-package 第五章_初始化与清理;
-
-import 第五章_初始化与清理.showEnum.兵种;
+package 第05章_初始化与清理;
 
 public class 兵 {
 
+	public enum 兵种 {
+		国防生, 军校生, 义务兵, 装甲兵, 飞行兵, 炮兵, 机械化步兵
+	}
+	
 	兵种 type;
 	
 	public 兵(兵种 type) {

@@ -1,6 +1,6 @@
-package 第五章_初始化与清理;
+package 第05章_初始化与清理;
 
-public class VarArray {
+public class 可变参数 {
 
 	public static void 显示可变数组(Object... objects) {
 		for (Object object : objects) {

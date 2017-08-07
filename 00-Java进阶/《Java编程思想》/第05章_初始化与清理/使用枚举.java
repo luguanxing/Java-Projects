@@ -1,11 +1,8 @@
-package 第五章_初始化与清理;
+package 第05章_初始化与清理;
 
+import 第05章_初始化与清理.兵.兵种;
 
-public class showEnum {
-
-	public enum 兵种 {
-		国防生, 军校生, 义务兵, 装甲兵, 飞行兵, 炮兵, 机械化步兵
-	}
+public class 使用枚举 {
 	
 	public static void main(String[] args) {
 		兵 bing1 = new 兵(兵种.国防生);

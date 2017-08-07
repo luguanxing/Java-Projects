@@ -1,15 +1,15 @@
-package 第五章_初始化与清理;
+package 第05章_初始化与清理;
 
-public class Book {
+public class 书 {
 	
 	String bookName = "无名书";
 	boolean isChecked = false;
 	
-	public Book(String bookName) {
+	public 书(String bookName) {
 		isChecked = false;
 		this.bookName = bookName;
 	}
-	public Book(boolean check, String bookName) {
+	public 书(boolean check, String bookName) {
 		isChecked = check;
 		this.bookName = bookName;
 	}
