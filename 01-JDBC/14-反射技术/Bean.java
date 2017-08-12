@@ -3,6 +3,7 @@ public class Bean {
 	private String name;
 
 	public Bean() {
+		
 	}
 
 	public Bean(String n) {
