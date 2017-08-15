@@ -7,23 +7,23 @@ import java.util.LinkedList;
 
 public class MyDataSource {
 	
-	//Êı¾İ¿â»ù±¾ĞÅÏ¢
+	//æ•°æ®åº“åŸºæœ¬ä¿¡æ¯
 	private static String url = "jdbc:mysql://localhost:3306/db_jdbc?generateSimpleParameterMetadata=true";
 	private static String user = "root";
 	private static String password = "root";
 	
-	//Á¬½Ó³Ø£¬ÓÃÓÚ»º³å
+	//è¿æ¥æ± ï¼Œç”¨äºç¼“å†²
 	private static int INIT_CONNECTIONS = 5;
 	private static int MAX_CONNECTIONS = 8;
 	private static int CURRENT_CONNECTIONS = 0;
-	private static LinkedList<Connection> connectionsPool = new LinkedList<Connection>();
+	private LinkedList<Connection> connectionsPool = new LinkedList<Connection>();
 	
 	public MyDataSource() {
 		try {
-			for (int i =0; i < INIT_CONNECTIONS; i++)	//±£´æÁËINIT_CONNECTIONS¸öConnection
+			for (int i =0; i < INIT_CONNECTIONS; i++)	//ä¿å­˜äº†INIT_CONNECTIONSä¸ªConnection
 				this.connectionsPool.addLast(this.createConnection());
 		} catch (Exception e) {
-			System.out.println("³õÊ¼»¯´íÎó");
+			System.out.println("åˆå§‹åŒ–é”™è¯¯");
 		}
 	}
 	
@@ -33,21 +33,21 @@ public class MyDataSource {
 			conn = DriverManager.getConnection(url, user, password);
 		} catch (Exception e) {
 			System.out.println(e);
-			System.out.println("´´½¨Connection³ö´í");
+			System.out.println("åˆ›å»ºConnectionå‡ºé”™");
 			conn = null;
 		}
 		return conn;
 	}
 	
-	public static Connection getConnection() throws Exception {
-		//±£Ö¤Ïß³Ì°²È«£¬Ò²²»ÄÜÎŞÏŞÖÆÈ¡Connection
-		synchronized (connectionsPool) {		//Ïß³Ì³Ø»¹ÓĞConnection
+	public Connection getConnection() throws Exception {
+		//ä¿è¯çº¿ç¨‹å®‰å…¨ï¼Œä¹Ÿä¸èƒ½æ— é™åˆ¶å–Connection
+		synchronized (connectionsPool) {		//çº¿ç¨‹æ± è¿˜æœ‰Connection
 			if (connectionsPool.size() > 0) {
 				CURRENT_CONNECTIONS++;
 				return connectionsPool.removeFirst();
-			} else {								//Ïß³Ì³ØÃ»ÓĞConnectionÁË£¬¿ÉÒÔ¼ÌĞø´´½¨Ö±µ½×î´óÖµ
+			} else {								//çº¿ç¨‹æ± æ²¡æœ‰Connectionäº†ï¼Œå¯ä»¥ç»§ç»­åˆ›å»ºç›´åˆ°æœ€å¤§å€¼
 				if (CURRENT_CONNECTIONS < MAX_CONNECTIONS) {
-					System.out.println("ĞÂ½¨Connection");
+					System.out.println("æ–°å»ºConnection");
 					CURRENT_CONNECTIONS++;
 					return createConnection();
 				} else {
@@ -57,7 +57,7 @@ public class MyDataSource {
 		}
 	}
 	
-	public static void freeConnection(Connection conn) {
+	public void freeConnection(Connection conn) {
 		connectionsPool.addLast(conn);
 		CURRENT_CONNECTIONS--;
 	}
