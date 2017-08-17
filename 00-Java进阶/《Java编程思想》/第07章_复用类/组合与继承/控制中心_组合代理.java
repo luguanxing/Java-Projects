@@ -1,4 +1,4 @@
-package 第07章_复用类;
+package 组合与继承;
 
 public class 控制中心_组合代理 {
 	private 控制器 kzq = new 控制器();

@@ -1,4 +1,4 @@
-package 第06章_访问权限空值;
+package 模式;
 
 public class 人 {
 	String 名字;

@@ -1,6 +1,6 @@
-package 第05章_初始化与清理;
+package 枚举;
 
-import 第05章_初始化与清理.兵.兵种;
+import 枚举.兵.兵种;
 
 public class 使用枚举 {
 	

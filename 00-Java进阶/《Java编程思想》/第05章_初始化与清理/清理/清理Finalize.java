@@ -1,6 +1,6 @@
-package 第05章_初始化与清理;
+package 清理;
 
-public class 清理条件Finalize {
+public class 清理Finalize {
 
 	public static void main(String[] args) throws Throwable {
 		

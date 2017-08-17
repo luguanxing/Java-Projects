@@ -1,4 +1,4 @@
-package 第05章_初始化与清理;
+package 清理;
 
 public class 书 {
 	

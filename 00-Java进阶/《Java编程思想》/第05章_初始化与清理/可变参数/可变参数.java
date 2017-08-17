@@ -1,4 +1,4 @@
-package 第05章_初始化与清理;
+package 可变参数;
 
 public class 可变参数 {
 

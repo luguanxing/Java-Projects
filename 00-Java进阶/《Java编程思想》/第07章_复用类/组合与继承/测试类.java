@@ -1,4 +1,4 @@
-package 第07章_复用类;
+package 组合与继承;
 
 public class 测试类 {
 

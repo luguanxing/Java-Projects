@@ -1,4 +1,4 @@
-package 第05章_初始化与清理;
+package 枚举;
 
 public class 兵 {
 
