@@ -1,8 +1,8 @@
-package 分支控制;
+
 
 import java.util.Random;
 
-public class Switch {
+public class 分支控制 {
 
 	public static void main(String[] args) {
 		Random rnd = new Random();
