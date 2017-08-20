@@ -1,6 +1,6 @@
 import java.net.InetAddress;
 
-public class test {
+public class 常用方法 {
 
 	public static void main(String[] args) {
 		从域名获得一个IP();
