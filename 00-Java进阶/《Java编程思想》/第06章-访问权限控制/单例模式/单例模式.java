@@ -1,4 +1,4 @@
-package 模式;
+package 单例模式;
 
 public class 单例模式 {
 	

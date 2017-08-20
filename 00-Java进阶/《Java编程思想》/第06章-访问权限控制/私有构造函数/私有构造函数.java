@@ -1,4 +1,4 @@
-package 模式;
+package 私有构造函数;
 
 public class 私有构造函数 {
 	
