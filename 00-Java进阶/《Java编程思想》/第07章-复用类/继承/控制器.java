@@ -1,4 +1,4 @@
-package 组合与继承;
+package 继承;
 
 public class 控制器 {
 	public void 上() {System.out.println("上");}
