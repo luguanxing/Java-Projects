@@ -33,7 +33,6 @@ public class JdbcTemplateTest2 {
 			@Override
 			public Object doInConnection(Connection conn) throws SQLException, DataAccessException {
 				//可以操作Connection，可用于存储过程的执行
-
 				String sql = "insert into t_user(name,birthday, money) values (?,?,?) ";
 				PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				ps.setString(1, user.getName());
