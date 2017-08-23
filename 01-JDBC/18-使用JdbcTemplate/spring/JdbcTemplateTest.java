@@ -2,6 +2,7 @@ package spring;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.List;
 import java.util.Map;
 
@@ -16,16 +17,16 @@ public class JdbcTemplateTest {
 	static JdbcTemplate jdbc = new JdbcTemplate(JdbcUtils.getDataSource());
 	
 	public static void main(String[] args) {
-//		System.out.println(findUser("张三"));
-//		
-//		List<User> users = findUsers(5);
-//		for (User user : users) {
-//			System.out.println(user);
-//		}
-//		
-//		System.out.println("总共有"+getUserCount()+"条记录");
-//		
-//		System.out.println(getUserName(1));
+		System.out.println(findUser("张三"));
+		
+		List<User> users = findUsers(5);
+		for (User user : users) {
+			System.out.println(user);
+		}
+		
+		System.out.println("总共有"+getUserCount()+"条记录");
+		
+		System.out.println(getUserName(1));
 		
 		Map map = findUserMap(1);
 		System.out.println(map);
@@ -54,7 +55,8 @@ public class JdbcTemplateTest {
 	public static List<User> findUsers(int maxid) {
 		String sql = "select id, name, money, birthday from t_user where id < ?";
 		Object[] args = {maxid};
-		List<User> users = jdbc.query(sql, args, new BeanPropertyRowMapper(User.class));
+		int[] argTypes = {Types.INTEGER};	//传入的参数类型，不传也可以(spring会通过反射知道类型)
+		List<User> users = jdbc.query(sql, args, argTypes, new BeanPropertyRowMapper(User.class));
 		return users;
 	}
 	
