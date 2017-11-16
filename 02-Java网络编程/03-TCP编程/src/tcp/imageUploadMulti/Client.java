@@ -17,7 +17,7 @@ public class Client extends Thread {
 			int len = 0;
 			while ( (len=fis.read(buf)) != -1 )
 				out.write(buf, 0, len);
-			s.shutdownOutput();//写结束标志使接收端能结束
+			s.shutdownOutput();	//写结束标志使接收端能结束
 			
 			//接收
 			InputStream in = s.getInputStream();
@@ -36,7 +36,7 @@ public class Client extends Thread {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 1000; i++) {
 			new Thread(new Client()).start();
 		}
 	}
