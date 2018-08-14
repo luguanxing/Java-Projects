@@ -1,7 +1,6 @@
 package net;
 
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ServerSocketChannel;
@@ -11,28 +10,9 @@ import java.nio.file.StandardOpenOption;
 
 import org.junit.Test;
 
-/*
- * 一、使用 NIO 完成网络通信的三个核心：
- * 
- * 1. 通道（Channel）：负责连接
- * 		
- * 	   java.nio.channels.Channel 接口：
- * 			|--SelectableChannel
- * 				|--SocketChannel
- * 				|--ServerSocketChannel
- * 				|--DatagramChannel
- * 
- * 				|--Pipe.SinkChannel
- * 				|--Pipe.SourceChannel
- * 
- * 2. 缓冲区（Buffer）：负责数据的存取
- * 
- * 3. 选择器（Selector）：是 SelectableChannel 的多路复用器。用于监控 SelectableChannel 的 IO 状况
- * 
- */
-public class TestBlockingNIO {
+public class TestBlockingNIOReplay {
 
-	// 客户端发送文件
+	// 客户端发送文件，并接收响应
 	@Test
 	public void client() throws Exception {
 		// 获取通道
@@ -49,12 +29,22 @@ public class TestBlockingNIO {
 			buf.clear();
 		}
 
+		// 结束客户端通道发送
+		sChannel.shutdownOutput();
+
+		// 阻塞式等接收服务端反馈
+		while (sChannel.read(buf) != -1) {
+			buf.flip();
+			System.out.println(new String(buf.array(), 0, buf.limit()));
+			buf.clear();
+		}
+
 		// 关闭通道
 		inChannel.close();
 		sChannel.close();
 	}
 
-	// 服务端接收文件
+	// 服务端接收文件，并返回响应
 	@Test
 	public void server() throws Exception {
 		// 获取通道
@@ -68,13 +58,22 @@ public class TestBlockingNIO {
 		// 获取客户端连接的通道
 		SocketChannel sChannel = ssChannel.accept();
 
-		// 阻塞式等接收客户端的数据并保存到本地
+		// 接收客户端的数据并保存到本地
 		ByteBuffer buf = ByteBuffer.allocate(1024);
 		while (sChannel.read(buf) != -1) {
 			buf.flip();
 			outChannel.write(buf);
 			buf.clear();
 		}
+
+		// 结束服务端通道接收(可选，但服务端结束接收和客户端结束发送至少得执行其中一个)
+		sChannel.shutdownInput();
+
+		// 反馈结果给客户端
+		buf.put("服务端接收数据成功".getBytes());
+		buf.flip();
+		sChannel.write(buf);
+		sChannel.shutdownInput();
 
 		// 关闭通道
 		sChannel.close();
